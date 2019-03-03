@@ -51,7 +51,7 @@ sudo apt-get update
 sudo apt-get install -y ros-kinetic-dbw-mkz-msgs
 cd /home/workspace/CarND-Capstone/ros
 rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y
-sudo pip install --upgrade catkin_pkg_modules
+pip install --upgrade catkin_pkg_modules
 ```
 
 ### Usage
@@ -90,4 +90,18 @@ rosbag play -l traffic_light_bag_file/traffic_light_training.bag
 cd CarND-Capstone/ros
 roslaunch launch/site.launch
 ```
-5. Confirm that traffic light detection works on real life images
+
+#### Running ROS bag on the Udacity Workspace
+Navigate to a temporary storage folder, so as not to exceed the 2GB limit in /home/workspace. 
+
+1. Download the [ros bag] (https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/traffic_light_bag_file.zip) using wget and the download link and unzip the file:
+```bash
+cd /opt
+wget <link_to_your_download>
+unzip /opt/path/to/your/download.zip
+```
+2. Open a terminal and start roscore.
+3. Open another terminal and run **rosbag play -l /opt/path/to/your.bag**
+4. Click the "Go To Desktop" button.
+5. From the XWindows desktop, open terminator, and run rviz. You can change the RViz configuration to Udacity's .config file by navigating to /home/workspace/default.rviz from File > Open Config in RViz.
+6. Confirm that traffic light detection works on real life images
