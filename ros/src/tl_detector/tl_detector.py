@@ -33,7 +33,7 @@ class TLDetector(object):
         simulator. When testing on the vehicle, the color state will not be available. You'll need to
         rely on the position of the light and the camera image to predict it.
         '''
-
+	self.light_classifier = None
         sub3 = rospy.Subscriber('/vehicle/traffic_lights', TrafficLightArray, self.traffic_cb)
         sub6 = rospy.Subscriber('/image_color', Image, self.image_cb, buff_size=2*52428800)
 
@@ -55,7 +55,7 @@ class TLDetector(object):
         
         config_string = rospy.get_param("/traffic_light_config")
         self.config = yaml.load(config_string)
-        
+        self.is_site = self.config['is_site']
         self.light_classifier = TLClassifier(self.config['is_site'])
         rospy.logwarn('self.config[is_site] = %d'%(self.config['is_site']))
         self.listener = tf.TransformListener()
@@ -129,17 +129,18 @@ class TLDetector(object):
             int: ID of traffic light color (specified in styx_msgs/TrafficLight)
 
         """
-        if(not self.has_image):
+        if not self.has_image or self.light_classifier is None:
             self.prev_light_loc = None
             return False
         
-        true_state = light.state
+        #true_state = light.state
         # image in rgb
         if self.use_camera_cntr % 8==0:
             # Predict every 8 tics to overcome latency/lag
             cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
             predicted_state = self.light_classifier.get_classification(cv_image)
             self.camera_last_prd = predicted_state
+	    #rospy.logwarn('Light predicted state  = %d'%(predicted_state))
         else:
             predicted_state = self.camera_last_prd
 
@@ -175,7 +176,7 @@ class TLDetector(object):
                     closest_light = light
                     line_wp_idx = temp_wp_idx
         # Classify light only when car is within 100 waypoints to overcome latency/lag
-        if closest_light and diff >= 0 and diff < 100:
+	if self.is_site or (closest_light and diff >= 0 and diff < 100):
             state = self.get_light_state(closest_light)
             self.use_camera_cntr += 1
             return line_wp_idx, state
