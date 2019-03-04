@@ -29,9 +29,10 @@ You will build both a traffic light detection node and a traffic light classific
 The classifier used in this project to detect the traffic light state is based on the model [ssd_mobilenet_v1_coco](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md#tensorflow-detection-model-zoo) from the model zoo of the [TensorFlow Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection). The model is pre-trained on the [COCO dataset](http://cocodataset.org) and then finetuned for traffic sign detection and classification on [traffic lights dataset](https://drive.google.com/file/d/0B-Eiyn-CUQtxdUZWMkFfQzdObUE/view). The model's small inference time (<50ms) and high accuracy are the main reasons for choosing it to run in real time in the simulator and the car.   
 
 <p align="center">
-  <img src="imgs/ssd.png" caption="hi">
+  <img src="imgs/ssd.png">
 </p>
-https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9
+  Image from [Deep Learning for Object Detection: A Comprehensive Review](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)
+
 
 ####/ros/src/waypoint_updater/
 This package contains the waypoint updater node: **waypoint_updater.py**. The purpose of this node is to update the target velocity property of each waypoint based on traffic light and obstacle detection data. This node will subscribe to the **/base_waypoints**, **/current_pose**, **/obstacle_waypoint**, and **/traffic_waypoint** topics, and publish a list of waypoints ahead of the car with target velocities to the **/final_waypoints** topic.
