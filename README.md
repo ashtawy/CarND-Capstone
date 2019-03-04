@@ -34,6 +34,7 @@ The classifier used in this project to detect the traffic light state is based o
   Image from [Deep Learning for Object Detection: A Comprehensive Review](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)
 
 
+
 ####/ros/src/waypoint_updater/
 This package contains the waypoint updater node: **waypoint_updater.py**. The purpose of this node is to update the target velocity property of each waypoint based on traffic light and obstacle detection data. This node will subscribe to the **/base_waypoints**, **/current_pose**, **/obstacle_waypoint**, and **/traffic_waypoint** topics, and publish a list of waypoints ahead of the car with target velocities to the **/final_waypoints** topic.
 
